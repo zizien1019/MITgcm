@@ -59,16 +59,29 @@ CEOP
       ENDIF
 
 C Example of how to add forcing at the surface
+C Edited 01/July/2023 AlanTM
       DO iTrc=1,PTRACERS_numInUse
-c       IF ( PTRACERS_StepFwd(iTrc) ) THEN
+        IF ( PTRACERS_StepFwd(iTrc) ) THEN
           DO j = jMin, jMax
            DO i = iMin, iMax
              surfaceForcingPTr(i,j,bi,bj,iTrc) = 0. _d 0
-c    &                        + surfaceForcingS(i,j,bi,bj)
+     &                        + sourcePTr(i,j,1,bi,bj,iTrc)
            ENDDO
           ENDDO
-c       ENDIF
+        ENDIF
       ENDDO
+
+C Original Version
+C      DO iTrc=1,PTRACERS_numInUse
+CC       IF ( PTRACERS_StepFwd(iTrc) ) THEN
+C          DO j = jMin, jMax
+C           DO i = iMin, iMax
+C             surfaceForcingPTr(i,j,bi,bj,iTrc) = 0. _d 0
+CC    &                        + surfaceForcingS(i,j,1,bi,bj,iTrc)
+C           ENDDO
+C          ENDDO
+CC       ENDIF
+C      ENDDO
 
 C--   Option to convert Salt-relaxation into additional EmP contribution
       IF ( PTRACERS_addSrelax2EmP ) THEN

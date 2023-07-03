@@ -37,6 +37,8 @@ C     i,j,k,bi,bj,iTracer  :: loop indices
       INTEGER n
 #endif
       CHARACTER*(MAX_LEN_FNAM) tmpInitialFile
+C     defined by Alan to receive sourceFile
+      CHARACTER*(MAX_LEN_FNAM) tmpSourceFile
 CEOP
 
 C     Initialise internal parameter in common block:
@@ -127,6 +129,34 @@ C Read from a pickup file if needed
 
        CALL PTRACERS_READ_PICKUP( nIter0, myThid )
       ENDIF
+
+C     Read source file into the source term
+      IF (nIter0.EQ.PTRACERS_Iter0) THEN
+       DO iTracer = 1, PTRACERS_numInUse
+        tmpSourceFile = PTRACERS_sourceFile(iTracer)
+        IF ( tmpSourceFile .NE. ' ' ) THEN
+         CALL READ_FLD_XYZ_RL(tmpSourceFile,' ',
+     &        sourcePTr(1-OLx,1-OLy,1,1,1,iTracer),0,myThid)
+         _EXCH_XYZ_RL(sourcePTr(1-OLx,1-OLy,1,1,1,iTracer),myThid)
+        ENDIF
+       ENDDO
+      ENDIF
+
+C     Apply mask
+      DO iTracer = 1, PTRACERS_numInUse
+       DO bj = myByLo(myThid), myByHi(myThid)
+        DO bi = myBxLo(myThid), myBxHi(myThid)
+         DO k=1,Nr
+          DO j=1-OLy,sNy+OLy
+           DO i=1-OLx,sNx+OLx
+            IF (maskC(i,j,k,bi,bj).EQ.0.)
+     &           sourcePTr(i,j,k,bi,bj,iTracer)=0. _d 0
+           ENDDO
+          ENDDO
+         ENDDO
+        ENDDO
+       ENDDO
+      ENDDO
 
 #endif /* ALLOW_PTRACERS */
 

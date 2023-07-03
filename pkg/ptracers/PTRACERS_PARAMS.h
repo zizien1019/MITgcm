@@ -134,11 +134,16 @@ C--   COMMON /PTRACERS_PARAMS_C/ PTRACERS character-type parameters:
       CHARACTER*(MAX_LEN_FNAM) PTRACERS_names(PTRACERS_num)
       CHARACTER*(MAX_LEN_FNAM) PTRACERS_long_names(PTRACERS_num)
       CHARACTER*(MAX_LEN_FNAM) PTRACERS_units(PTRACERS_num)
+
+      CHARACTER*(MAX_LEN_FNAM) PTRACERS_sourceFile(PTRACERS_num)
+      
       COMMON /PTRACERS_PARAMS_C/
      &     PTRACERS_initialFile,
      &     PTRACERS_names,
      &     PTRACERS_long_names,
-     &     PTRACERS_units
+     &     PTRACERS_units,
+
+     &     PTRACERS_sourceFile
 
 C     COMMON /PTRACERS_LABELS/ holds pTracers labels
 C     PTRACERS_ioLabel  :: pTracer I/O & diagnostics label (2 charecters long)

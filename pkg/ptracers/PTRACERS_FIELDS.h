@@ -13,15 +13,21 @@ CEOP
 C     COMMON /PTRACERS_FIELDS/
 C     pTracer  :: passive tracer concentration (tr per unit volume).
 C     gpTrNm1  :: work-space for time-stepping
+C     sourcePTr:: source and sink term defined by Alan^TM
 C     surfaceForcingPTr :: passive tracer surface forcing
       _RL  pTracer (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy,
      &              PTRACERS_num)
       _RL  gpTrNm1 (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy,
      &              PTRACERS_num)
+
+      _RL  sourcePTr (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy,
+     &              PTRACERS_num)
+
       _RL  surfaceForcingPTr (1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy,
      &              PTRACERS_num)
+
       COMMON /PTRACERS_FIELDS/
-     &              pTracer, gpTrNm1, surfaceForcingPTr
+     &              pTracer, gpTrNm1, sourcePTr, surfaceForcingPTr
 
       _RL totSurfCorPTr(PTRACERS_num)
       _RL meanSurfCorPTr(PTRACERS_num)
